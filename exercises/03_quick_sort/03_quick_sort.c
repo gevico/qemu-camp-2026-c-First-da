@@ -13,7 +13,7 @@ typedef struct {
 Student students[MAX_STUDENTS];
 
 void quick_sort(int left, int right) {
-    if (left == right )
+    if (left >= right )
         return ;
     else if (left == right - 1)
     {
@@ -31,12 +31,12 @@ void quick_sort(int left, int right) {
 
     while (begin != end)
     {
-        while ((students[end].score < students[flag].score) && (begin < end))
+        while ((students[end].score <= students[flag].score) && (begin < end))
         {
             end--;
         }
 
-        while ((students[begin].score > students[flag].score) && (begin < end))
+        while ((students[begin].score >= students[flag].score) && (begin < end))
         {
             begin ++;
         }
