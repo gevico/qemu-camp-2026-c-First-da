@@ -27,28 +27,40 @@ int main() {
     }
 
     int idx = 0;
+    int step = 4;
+
+
     while(q.count != 0)
     {
-        idx = (q.count == total_people) ? idx + q.count - 1 : idx + q.count;
-        if (idx > MAX_PEOPLE - 1)
-            idx -= MAX_PEOPLE ; 
-        if (q.data[idx].id) 
+        if (q.data[idx].id == 0) 
             {
-                if (q.count != 1)
+                idx ++;
+                continue;
+            }
+        idx ++;    
+        if (idx >= MAX_PEOPLE)
+            idx -=MAX_PEOPLE;
+        step --;
+        
+        if (step == 0)
+        {
+            if (q.count != 1)
                 {
                     printf("淘汰: %d\n", q.data[idx].id);
                     q.count --;
                     q.data[idx].id = 0;
                 }
-                else
+            else
                 {
                     printf("最后剩下的人是: %d\n", q.data[idx].id);
                     q.count --;
                     q.data[idx].id = 0;
                 }
-                    
-            }
+            
+            step = report_interval;
+        }
     }
+
 
     return 0;
 }
