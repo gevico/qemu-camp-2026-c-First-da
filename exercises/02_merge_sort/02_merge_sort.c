@@ -13,9 +13,72 @@ typedef struct {
 Student students[MAX_STUDENTS];
 Student temp[MAX_STUDENTS];
 
+void merge(int left, int mid , int right)
+{
+    int len = right - left + 1;
+    // int len_left = mid - left + 1;
+    // int len_right = right - mid;
+    int ptr_left = left;
+    int ptr_right = mid + 1;
+    Student *copy = (Student *) malloc(sizeof(Student) * len);
+    for (int i = 0; i < len; i++)
+    {
+        if (ptr_left == mid)
+        {
+            copy[i] = students[ptr_right];
+            ptr_right ++;
+        }
+        else if (ptr_right == right)
+        {
+            copy[i] = students[ptr_left];
+            ptr_left ++;
+        }
+        else 
+        {
+            if (students[ptr_left].score > students[ptr_right].score)
+            {
+                copy[i] = students[ptr_left];
+                ptr_left ++;
+            }
+            else 
+            {
+                copy[i] = students[ptr_right];
+                ptr_right ++;
+            }
+        }
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        students[i] = copy[i];
+    }
+
+    free(copy);
+}
+
+
 void merge_sort(int left, int right) {
     // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    int mid = (left + right ) / 2;
+    Student temp;
+    if (left == right )
+        return ;
+    else if (left == right - 1)
+    {
+        if (students[left].score < students[right].score)
+            {
+                temp = students[left];
+                students[left] = students[right];
+                students[right] = temp;
+            }
+        return ;
+    }
+
+
+    merge_sort(left, mid);
+    merge_sort(mid + 1, right);
+    merge(left, mid, right);
+
 }
 
 int main(void) {
