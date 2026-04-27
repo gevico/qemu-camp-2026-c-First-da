@@ -11,6 +11,8 @@ int main() {
             wordCount ++;
     }
 
+    if (str[0] != ' ')
+        wordCount ++;
     printf("单词数量: %d\n", wordCount);
     
     return 0;
