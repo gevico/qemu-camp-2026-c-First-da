@@ -29,17 +29,6 @@ int maze[MAX_ROW][MAX_COL] = {
 	0, 0, 0, 1, 0,
 };
 
-// void print_maze(void)
-// {
-// 	int i, j;
-// 	for (i = 0; i < MAX_ROW; i++) {
-// 		for (j = 0; j < MAX_COL; j++)
-// 			printf("%d ", maze[i][j]);
-// 		putchar('\n');
-// 	}
-// 	printf("*********\n");
-// }
-
 struct point predecessor[MAX_ROW][MAX_COL] = {
 	{{-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}},
 	{{-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}, {-1,-1}},
@@ -80,7 +69,6 @@ int main(void)
 		if (p.row-1 >= 0          /* up */
 		    && maze[p.row-1][p.col] == 0)
 			visit(p.row-1, p.col, p);
-		// print_maze();
 	}
 	if (p.row == MAX_ROW - 1 && p.col == MAX_COL - 1) {
 		printf("(%d, %d)\n", p.row, p.col);
