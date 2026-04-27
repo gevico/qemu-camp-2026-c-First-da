@@ -16,19 +16,17 @@ Student temp[MAX_STUDENTS];
 void merge(int left, int mid , int right)
 {
     int len = right - left + 1;
-    // int len_left = mid - left + 1;
-    // int len_right = right - mid;
     int ptr_left = left;
     int ptr_right = mid + 1;
     Student *copy = (Student *) malloc(sizeof(Student) * len);
     for (int i = 0; i < len; i++)
     {
-        if (ptr_left == mid)
+        if (ptr_left > mid)
         {
             copy[i] = students[ptr_right];
             ptr_right ++;
         }
-        else if (ptr_right == right)
+        else if (ptr_right > right)
         {
             copy[i] = students[ptr_left];
             ptr_left ++;
@@ -48,9 +46,10 @@ void merge(int left, int mid , int right)
         }
     }
 
+    int begin_left = left;
     for (int i = 0; i < len; i++)
     {
-        students[i] = copy[i];
+        students[begin_left++] = copy[i];
     }
 
     free(copy);
