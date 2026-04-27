@@ -34,7 +34,7 @@ int main() {
             idx -= MAX_PEOPLE ; 
         if (q.data[idx].id) 
             {
-                if (q.count == 1)
+                if (q.count != 1)
                 {
                     printf("淘汰: %d\n", q.data[idx].id);
                     q.count --;
