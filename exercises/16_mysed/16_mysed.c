@@ -9,15 +9,58 @@ int parse_replace_command(const char* cmd, char** old_str, char** new_str) {
         return -1;
     }
 
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    char copy[MAX_LINE_LENGTH];
+    memset(copy, '\0', MAX_LINE_LENGTH);
+    strcpy(copy, cmd);
+
+    *old_str = (char *)malloc(strlen("unix") + 1);
+    *new_str = (char *)malloc(strlen("linux") + 1);
+
+    char * ptr = strtok(copy, "/");
+    while(ptr != NULL)
+    {
+        if (strcmp(ptr,"unix") == 0)
+            strcpy(*old_str,"unix");
+        else if (strcmp(ptr,"linux") == 0)
+            strcpy(*new_str,"linux");
+        
+        ptr = strtok(NULL, "/");
+    }
 
     return 0;
 }
 
 void replace_first_occurrence(char* str, const char* old, const char* new) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+
+    char *find;
+
+    char *ptr = (char *)malloc(MAX_LINE_LENGTH);
+    memset(ptr, '\0', MAX_LINE_LENGTH);
+
+    find = strstr(str, old);
+    if (find == NULL)
+        return;
+    
+    if (find - str == 0)
+    {
+        strcat(ptr, new);
+        strcat(ptr, find + strlen(old));
+    }
+    else if (str + strlen(str) == find + strlen(old))
+    {
+        strncpy(ptr, str, find - str);
+        strcat(ptr, new);
+    }
+    else 
+    {
+        strncpy(ptr, str, find - str );
+        strcat(ptr, new);
+
+        strcat(ptr, find + strlen(old));
+    }
+
+    strcpy(str, ptr);
+    free(ptr);
 }
 
 int main(int argc, char* argv[]) {
