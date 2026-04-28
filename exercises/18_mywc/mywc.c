@@ -23,8 +23,44 @@ char to_lower(char c) { return tolower(c); }
 
 // 添加单词到哈希表
 void add_word(WordCount **hash_table, const char *word) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+  //如果单词已存在，那么就count + 1
+  //如果单词不存在，那么就创建节点
+
+  int index = hash(word);
+  int find_flag = 0;
+  struct WordCount * ptr = hash_table[index];
+  if ((ptr != NULL) && (strcmp(word, hash_table[index]->word) == 0))
+      {
+          hash_table[index]->count ++;
+      }
+  else 
+      {
+          while ((ptr != NULL) && (ptr->next != NULL))
+          {
+            ptr = ptr->next;
+            if (strcmp(word, ptr->word) == 0)
+                {
+                    ptr->count++;
+                    find_flag = 1;
+                    break;
+                }
+          }
+
+          //创建新节点
+          if (find_flag == 0)
+            {
+                WordCount *new_Node = (WordCount *)malloc(sizeof(WordCount));
+                strcpy(new_Node->word, word);
+                new_Node->count = 1;
+                new_Node->next = NULL;
+                if (ptr == NULL)
+                  hash_table[index] = new_Node;
+                else
+                  ptr->next = new_Node;
+            }
+      }
+
+
 }
 
 // 打印单词统计结果
@@ -32,14 +68,44 @@ void print_word_counts(WordCount **hash_table) {
   printf("Word Count Statistics:\n");
   printf("======================\n");
 
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+  int index = 0;
+  WordCount *ptr;
+  while(index < HASH_SIZE)
+  {
+    if (hash_table[index] != NULL)
+        {
+            printf("%-21s%d\n", hash_table[index]->word, hash_table[index]->count);
+            ptr = hash_table[index];
+            while(ptr->next != NULL)
+            {
+                ptr = ptr->next;
+                printf("%-21s%d\n", ptr->word, ptr->count);
+            }
+        }
+      
+    index ++;
+  }
+}
+
+void free_node(WordCount *hash_node)
+{
+    if (hash_node->next != NULL)
+      free_node(hash_node->next);
+    free(hash_node);
 }
 
 // 释放哈希表内存
 void free_hash_table(WordCount **hash_table) {
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    int index = 0;
+    WordCount *ptr;
+    WordCount *ptr_next;
+    while(index < HASH_SIZE)
+    {
+        if (hash_table[index] != NULL)
+            free_node(hash_table[index]);
+        index ++;
+    }
+    free(hash_table);
 }
 
 // 处理文件并统计单词
