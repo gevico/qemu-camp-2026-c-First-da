@@ -41,7 +41,51 @@ void processFile(const char *filename) {
 
     switch (choice) {
         // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        case 1:
+        {
+            int array[20];
+            int i = 0;
+            while ((fscanf(fin,"%d",&array[i]) == 1)&& i < n)
+            {
+                i++;
+            }
+            sort(array,i,sizeof(int),compareInt);
+            for(int j = 0; j < n; j++)
+            {
+                printf("%d",array[j]);
+                if (j != n - 1)
+                    printf(" ");
+            }
+            break;
+        }
+        case 2:
+            {            
+                float array[20];
+                int i = 0;
+                while ((fscanf(fin,"%f",&array[i]) == 1) && i < n)
+                {
+                    i++;
+                }
+                sort(array,i,sizeof(float),compareFloat);
+                for(int j = 0; j < n; j++)
+                {
+                    printf("%f",array[j]);
+                    if (j != n - 1)
+                        printf(" ");
+                }
+                break;
+            }
+        case 3:
+        {
+            char array[20][100];
+            int i = 0;
+            while(fscanf(fin,"%s",&array[i]) == 1)
+            {
+                i++;
+            }
+            sort(array, i, sizeof(array[0]),compareString);
+            break;
+        }
     }
 
     fclose(fin);
