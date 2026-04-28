@@ -57,13 +57,35 @@ int shell_parse(char *buf, char *argv[])
 {
     int argc = 0;
     int state = 0;
-    // TODO: 在这里添加你的代码，完成命令行解析
+
+    int i = 0;
+    int idx = 0;
+    char s[20];
+    while(buf[i] != '\0' && argc < 10)
+    {
+        if (buf[i] == ' ')
+            {
+                s[idx] = '\0';
+                argv[argc] = (char *)malloc(strlen(s) + 1);
+                strcpy(argv[argc],s);
+                argc++;
+                memset(s,'\0',strlen(s));
+                idx = 0;
+            }
+        else 
+            {
+                s[idx] = buf[i];
+                idx++;
+            }
+            i++;
+    }
+
     // 功能：将输入字符串buf按空格分割成多个参数，存入argv数组
     // 返回：参数个数argc
     // 提示：使用状态机的方式处理，注意处理字符串结束符
-    // I AM NOT DONE
     return argc;
 }
+
 
 void execute_command(int argc, char *argv[])
 {
