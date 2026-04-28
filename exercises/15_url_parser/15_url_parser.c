@@ -12,8 +12,34 @@
 int parse_url(const char* url) {
     int err = 0;
 
-    // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    char array[100] ;
+    memset(array,'\0',100);
+    strcpy(array,url);
+
+    char *ptr = strchr(array, '?');
+    if (ptr == NULL)
+        return err;
+
+    char * rest;
+    char * key;
+    char * value;
+
+    while (1)
+    {
+        ptr++;
+        rest = ptr;
+        ptr = strchr(ptr,'&');
+        if (ptr == NULL)
+            break;
+        *ptr = '\0';
+
+        value = strchr(rest, '=');
+        *value = '\0'; 
+        printf("key = %s, value = %s\n", rest, value + 1); 
+    }
+    value = strchr(rest, '=');
+    *value = '\0'; 
+    printf("key = %s, value = %s\n", rest, value + 1); 
 
 exit:
     return err;
