@@ -34,6 +34,8 @@ int main() {
   }
 
   char line[256];
+  char *ptr ;
+
   while (fgets(line, sizeof(line), file) != NULL) {
     line[strcspn(line, "\n")] = '\0';
 
@@ -43,9 +45,19 @@ int main() {
 
     // 使用 strtok 按空格分割单词
     // TODO: 在这里添加你的代码
-    // I AM NOT DONE
-  }
+    to_lowercase(line);
+    ptr = strtok(line, " ");
+    while(ptr != NULL)
+    {
+        if (hash_table_lookup(table, ptr) != NULL)
+            printf("原文: %s\t翻译: %s\n", ptr, hash_table_lookup(table, ptr));
+        else 
+            printf("原文: %s\t未找到该单词的翻译。\n", ptr);
+        ptr = strtok(NULL, " ");
+    }
 
+  
+}
   free_hash_table(table);
   return 0;
 }
