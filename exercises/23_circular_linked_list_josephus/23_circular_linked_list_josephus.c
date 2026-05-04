@@ -3,6 +3,11 @@
 
 #include "circular_linked_list.h"
 
+int is_empty(Node * head)
+{
+    return (head == NULL) ? 1 : 0;
+}
+
 // 使用环形链表模拟约瑟夫环并打印出列顺序
 static void josephus_problem(int n, int k, int m) {
     if (n <= 0 || k <= 0 || m <= 0) {
@@ -24,12 +29,34 @@ static void josephus_problem(int n, int k, int m) {
     // 起始位置移动到第 k 个
     for (int i = 1; i < k; ++i) {
         // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        current = current -> next;
+        prev = prev -> next;
     }
 
     // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    if (m == 1)
+    {
+        for (int i = 1; i <= n; i++)
+            {
+                printf("%d ", current->id);
+                current = current -> next;
+            }
+        return ;
+    }
     
+    while (current != current -> next) 
+    {
+        for (int i = 1; i < m; i++)
+            {
+                current = current -> next;
+                prev = prev -> next;
+            }
+        printf("%d ",current->id);
+        current = current->next;
+        prev->next = current;
+    }
+    printf("%d ",current->id);
+
     printf("\n");
 }
 
