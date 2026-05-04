@@ -23,14 +23,67 @@ TreeNode* create_node(char letter) {
 // 向BST中插入节点或更新计数
 TreeNode* insert_or_update(TreeNode* root, char letter) {
     // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    letter = tolower(letter);
+    if (root == NULL)
+            return  create_node(letter);
+        
+    if (root->letter == letter)
+        {
+            root->count ++ ;
+            return root;
+        }
+    else if (root->letter > letter)
+        {
+            if (root->left == NULL)
+                {
+                    root->left = create_node(letter);
+                }
+            else if (root->left->letter < letter)
+                {
+                    TreeNode*temp = create_node(letter);
+                    temp->left = root->left;
+                    temp->right = NULL;
+                    root -> left = temp;
+                }
+            else if (root->left->letter == letter)
+                {
+                    root->left->count ++;
+                }
+            else 
+                root->left = insert_or_update(root->left,letter);
+        }
+    else 
+                {
+            if (root->right == NULL)
+                {
+                    root->right = create_node(letter);
+                }
+            else if (root->right->letter > letter)
+                {
+                    TreeNode*temp = create_node(letter);
+                    temp->right = root->right;
+                    temp->left = NULL;
+                    root->right = temp;
+                }
+            else if (root->right->letter == letter)
+                {
+                    root->right->count ++;
+                }
+            else 
+                root->right = insert_or_update(root->right,letter);
+        }
+    
+    return root;
 }
 
 // 中序遍历BST并打印结果（按字母顺序）
 void inorder_traversal(TreeNode* root) {
     // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    if (root == NULL)
+        return ;
+    inorder_traversal(root->left);
     printf("%c:%d\n", root->letter, root->count);
+    inorder_traversal(root->right);
 }
 
 // 释放BST内存
