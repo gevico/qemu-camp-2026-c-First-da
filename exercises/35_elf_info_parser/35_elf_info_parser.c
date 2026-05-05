@@ -39,20 +39,59 @@ static int host_is_little_endian(void) {
  */
 static void fix_ehdr_endian(const Elf64_Ehdr *src, Elf64_Ehdr *dst, int file_is_le, int host_is_le) {
     // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    memcpy(dst, src, sizeof(Elf64_Ehdr));
+    if (file_is_le == host_is_le) 
+        return ;
+    else 
+        {
+            dst->e_type         = bswap16(dst->e_type     );            /* 2 字节，要转 */
+            dst->e_machine      = bswap16(dst->e_machine  );            /* 2 字节，要转 */
+            dst->e_version      = bswap32(dst->e_version  );            /* 4 字节，要转 */
+            dst->e_entry        = bswap64(dst->e_entry    );            /* 8 字节，要转 */
+            dst->e_phoff        = bswap64(dst->e_phoff    );            /* 8 字节，要转 */
+            dst->e_shoff        = bswap64(dst->e_shoff    );            /* 8 字节，要转 */
+            dst->e_flags        = bswap32(dst->e_flags    );            /* 4 字节，要转 */
+            dst->e_ehsize       = bswap16(dst->e_ehsize   );            /* 2 字节，要转 */
+            dst->e_phentsize    = bswap16(dst->e_phentsize);            /* 2 字节，要转 */
+            dst->e_phnum        = bswap16(dst->e_phnum    );            /* 2 字节，要转 */
+            dst->e_shentsize    = bswap16(dst->e_shentsize);            /* 2 字节，要转 */
+            dst->e_shnum        = bswap16(dst->e_shnum    );            /* 2 字节，要转 */
+            dst->e_shstrndx     = bswap16(dst->e_shstrndx );            /* 2 字节，要转 */
+        }
 }
 
 static void fix_phdr_endian(const Elf64_Phdr *src, Elf64_Phdr *dst, int file_is_le, int host_is_le) {
     // TODO: 在这里添加你的代码
-    // I AM NOT DONE
+    memcpy(dst, src, sizeof(Elf64_Phdr));
+
+    if (file_is_le == host_is_le) {
+        return;
+    }
+
+    dst->p_type   = bswap32(dst->p_type);    /* Elf64_Word，4 字节 */
+    dst->p_flags  = bswap32(dst->p_flags);   /* Elf64_Word，4 字节 */
+    dst->p_offset = bswap64(dst->p_offset);  /* Elf64_Off，8 字节 */
+    dst->p_vaddr  = bswap64(dst->p_vaddr);   /* Elf64_Addr，8 字节 */
+    dst->p_paddr  = bswap64(dst->p_paddr);   /* Elf64_Addr，8 字节 */
+    dst->p_filesz = bswap64(dst->p_filesz);  /* Elf64_Xword，8 字节 */
+    dst->p_memsz  = bswap64(dst->p_memsz);   /* Elf64_Xword，8 字节 */
+    dst->p_align  = bswap64(dst->p_align);   /* Elf64_Xword，8 字节 */
 }
 
 static const char *etype_to_str(uint16_t e_type) {
     switch (e_type) {
         case ET_NONE: /* 无类型 */
             return "ET_NONE";
-        // TODO: 在这里添加你的代码
-        // I AM NOT DONE
+        case ET_REL:
+            return "ET_Relocatable file";
+        case ET_EXEC:
+            return "ET_Executable file";
+        case ET_DYN:
+            return "ET_Shared object file";
+        case ET_CORE:
+            return "ET_Core file";           
+        default:
+            return NULL;
     }
 }
 
